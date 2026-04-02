@@ -188,14 +188,11 @@
 
     /* ── Robot ── */
     .robot-wrap {
-      position: fixed;
-      right: 2rem;
-      top: 50%;
-      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
+      margin-top: 2rem;
       user-select: none;
     }
 
@@ -274,9 +271,6 @@
       .choices     { gap: 0.6rem; }
     }
 
-    @media (max-width: 780px) {
-      .robot-wrap { display: none; }
-    }
   </style>
 </head>
 <body>
@@ -329,31 +323,32 @@
         <div class="score-num" id="score-cpu">0</div>
       </div>
     </div>
-  </div>
 
-  <!-- Robot -->
-  <div class="robot-wrap">
-    <div class="robot-bubble" id="robot-bubble">I am ready!</div>
-    <svg class="robot-svg" id="robot-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
-      <line x1="50" y1="12" x2="50" y2="22" stroke="#1d6fbf" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="50" cy="9" r="5" fill="#60a5fa" stroke="#1d6fbf" stroke-width="2"/>
-      <rect x="20" y="22" width="60" height="44" rx="10" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
-      <rect x="29" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
-      <rect id="eye-l" x="33" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
-      <rect x="55" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
-      <rect id="eye-r" x="59" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
-      <path id="robot-mouth" d="M 34 58 Q 50 58 66 58" stroke="#1d6fbf" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <rect x="43" y="66" width="14" height="8" rx="3" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
-      <rect x="15" y="74" width="70" height="50" rx="12" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
-      <rect x="30" y="83" width="40" height="28" rx="6" fill="#93c5fd" stroke="#60a5fa" stroke-width="1.5"/>
-      <circle cx="42" cy="97" r="5" fill="#1d6fbf"/>
-      <circle cx="58" cy="97" r="5" fill="#60a5fa"/>
-      <rect x="36" y="87" width="28" height="5" rx="2.5" fill="#dbeeff" opacity="0.7"/>
-      <rect x="1" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
-      <rect x="85" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
-      <rect x="25" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
-      <rect x="57" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
-    </svg>
+    <!-- Robot -->
+    <div class="robot-wrap">
+      <div class="robot-bubble" id="robot-bubble">I am ready!</div>
+      <svg class="robot-svg" id="robot-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+        <line x1="50" y1="12" x2="50" y2="22" stroke="#1d6fbf" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="50" cy="9" r="5" fill="#60a5fa" stroke="#1d6fbf" stroke-width="2"/>
+        <rect x="20" y="22" width="60" height="44" rx="10" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
+        <rect x="29" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
+        <rect id="eye-l" x="33" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
+        <rect x="55" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
+        <rect id="eye-r" x="59" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
+        <path id="robot-mouth" d="M 34 58 Q 50 58 66 58" stroke="#1d6fbf" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <rect x="43" y="66" width="14" height="8" rx="3" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
+        <rect x="15" y="74" width="70" height="50" rx="12" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
+        <rect x="30" y="83" width="40" height="28" rx="6" fill="#93c5fd" stroke="#60a5fa" stroke-width="1.5"/>
+        <circle cx="42" cy="97" r="5" fill="#1d6fbf"/>
+        <circle cx="58" cy="97" r="5" fill="#60a5fa"/>
+        <rect x="36" y="87" width="28" height="5" rx="2.5" fill="#dbeeff" opacity="0.7"/>
+        <rect x="1" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
+        <rect x="85" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
+        <rect x="25" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
+        <rect x="57" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
+      </svg>
+    </div>
+
   </div>
 
   <script>
