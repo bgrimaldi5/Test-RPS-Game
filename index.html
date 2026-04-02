@@ -6,23 +6,20 @@
   <title>Rock Paper Scissors</title>
   <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
   <style>
-    /* ── Reset ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Theme ── */
     :root {
-      --bg:      #dbeeff;
-      --card:    #bfdfff;
-      --border:  #60a5fa;
-      --accent:  #1d6fbf;
-      --yellow:  #ca8a04;
-      --teal:    #0f8a5f;
-      --red:     #dc2626;
-      --text:    #0c2340;
-      --muted:   #2e6fa3;
+      --bg:     #dbeeff;
+      --card:   #bfdfff;
+      --border: #60a5fa;
+      --accent: #1d6fbf;
+      --yellow: #ca8a04;
+      --teal:   #0f8a5f;
+      --red:    #dc2626;
+      --text:   #0c2340;
+      --muted:  #2e6fa3;
     }
 
-    /* ── Body ── */
     body {
       font-family: 'Nunito', sans-serif;
       background: var(--bg);
@@ -34,14 +31,12 @@
       padding: 1.5rem;
     }
 
-    /* ── Wrapper ── */
     .game {
       width: 100%;
       max-width: 500px;
       text-align: center;
     }
 
-    /* ── Title ── */
     h1 {
       font-family: 'Boogaloo', cursive;
       font-size: clamp(2rem, 8vw, 3.5rem);
@@ -52,15 +47,6 @@
       margin-bottom: 0.25rem;
     }
 
-    .tagline {
-      font-size: 0.85rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-    }
-
-    /* ── Choice Buttons ── */
     .choices {
       display: flex;
       justify-content: center;
@@ -109,7 +95,6 @@
       letter-spacing: 1px;
     }
 
-    /* ── Arena ── */
     .arena {
       display: none;
       justify-content: center;
@@ -150,7 +135,6 @@
       color: var(--border);
     }
 
-    /* ── Result message ── */
     .result-msg {
       font-family: 'Boogaloo', cursive;
       font-size: 2.2rem;
@@ -159,11 +143,10 @@
       margin-bottom: 1.75rem;
     }
 
-    .result-msg.win  { color: var(--teal);   text-shadow: 0 0 14px rgba(52,211,153,0.5); }
-    .result-msg.lose { color: var(--red);    text-shadow: 0 0 14px rgba(248,113,113,0.5); }
-    .result-msg.tie  { color: var(--yellow); text-shadow: 0 0 14px rgba(253,224,71,0.4); }
+    .result-msg.win  { color: var(--teal);   text-shadow: 0 0 14px rgba(15,138,95,0.4); }
+    .result-msg.lose { color: var(--red);    text-shadow: 0 0 14px rgba(220,38,38,0.4); }
+    .result-msg.tie  { color: var(--yellow); text-shadow: 0 0 14px rgba(202,138,4,0.4); }
 
-    /* ── Scoreboard ── */
     .scoreboard {
       display: flex;
       justify-content: center;
@@ -201,14 +184,6 @@
       font-family: 'Boogaloo', cursive;
       font-size: 1rem;
       color: var(--border);
-      letter-spacing: 2px;
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 400px) {
-      .choice      { width: 100px; padding: 1rem 0.5rem 0.75rem; }
-      .choice-icon { font-size: 2.5rem; }
-      .choices     { gap: 0.6rem; }
     }
 
     /* ── Robot ── */
@@ -238,6 +213,7 @@
       transition: opacity 0.3s ease, transform 0.3s ease;
       position: relative;
     }
+
     .robot-bubble::after {
       content: '';
       position: absolute;
@@ -247,6 +223,7 @@
       border: 5px solid transparent;
       border-top-color: var(--border);
     }
+
     .robot-bubble::before {
       content: '';
       position: absolute;
@@ -257,6 +234,7 @@
       border-top-color: white;
       z-index: 1;
     }
+
     .robot-bubble.show {
       opacity: 1;
       transform: translateY(0);
@@ -266,35 +244,36 @@
       width: 90px;
       height: auto;
       filter: drop-shadow(0 4px 10px rgba(29,111,191,0.2));
-      transition: transform 0.3s ease;
-    }
-    .robot-wrap:hover .robot-svg {
-      transform: translateY(-4px);
     }
 
-    /* bounce on win */
     .robot-svg.bounce {
-      animation: robotBounce 0.5s ease;
+      animation: robotBounce 0.6s ease;
     }
+
     @keyframes robotBounce {
       0%   { transform: translateY(0); }
-      30%  { transform: translateY(-16px); }
+      30%  { transform: translateY(-18px); }
       55%  { transform: translateY(-6px); }
-      75%  { transform: translateY(-12px); }
+      75%  { transform: translateY(-13px); }
       100% { transform: translateY(0); }
     }
 
-    /* droop on lose */
     .robot-svg.droop {
       animation: robotDroop 0.5s ease forwards;
     }
+
     @keyframes robotDroop {
-      0%   { transform: translateY(0) rotate(0deg); }
-      40%  { transform: translateY(6px) rotate(-6deg); }
-      100% { transform: translateY(4px) rotate(-4deg); }
+      0%   { transform: rotate(0deg); }
+      40%  { transform: rotate(-8deg) translateY(4px); }
+      100% { transform: rotate(-5deg) translateY(3px); }
     }
 
-    /* hide robot on small screens */
+    @media (max-width: 400px) {
+      .choice      { width: 100px; padding: 1rem 0.5rem 0.75rem; }
+      .choice-icon { font-size: 2.5rem; }
+      .choices     { gap: 0.6rem; }
+    }
+
     @media (max-width: 780px) {
       .robot-wrap { display: none; }
     }
@@ -305,7 +284,6 @@
   <div class="game">
     <h1>Rock Paper Scissors</h1>
 
-    <!-- Pick buttons -->
     <div class="choices">
       <button class="choice" onclick="play('rock')">
         <span class="choice-icon dark">&#x1FAA8;</span>
@@ -321,7 +299,6 @@
       </button>
     </div>
 
-    <!-- Shows after each round -->
     <div class="arena" id="arena">
       <div class="arena-side">
         <div class="arena-icon" id="player-icon"></div>
@@ -334,10 +311,8 @@
       </div>
     </div>
 
-    <!-- Win / Lose / Tie -->
     <div class="result-msg" id="result-msg"></div>
 
-    <!-- Score -->
     <div class="scoreboard">
       <div class="score-col">
         <div class="score-label">You</div>
@@ -357,34 +332,25 @@
   </div>
 
   <!-- Robot -->
-  <div class="robot-wrap" id="robot-wrap">
-    <div class="robot-bubble" id="robot-bubble">Beep boop!</div>
+  <div class="robot-wrap">
+    <div class="robot-bubble" id="robot-bubble">I am ready!</div>
     <svg class="robot-svg" id="robot-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
-      <!-- antenna -->
       <line x1="50" y1="12" x2="50" y2="22" stroke="#1d6fbf" stroke-width="3" stroke-linecap="round"/>
       <circle cx="50" cy="9" r="5" fill="#60a5fa" stroke="#1d6fbf" stroke-width="2"/>
-      <!-- head -->
       <rect x="20" y="22" width="60" height="44" rx="10" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
-      <!-- eyes - normal: glowing rect pupils -->
       <rect x="29" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
       <rect id="eye-l" x="33" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
       <rect x="55" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
       <rect id="eye-r" x="59" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
-      <!-- mouth -->
-      <path id="robot-mouth" d="M 32 56 Q 50 64 68 56" stroke="#1d6fbf" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <!-- neck -->
+      <path id="robot-mouth" d="M 34 58 Q 50 58 66 58" stroke="#1d6fbf" stroke-width="3" fill="none" stroke-linecap="round"/>
       <rect x="43" y="66" width="14" height="8" rx="3" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
-      <!-- body -->
       <rect x="15" y="74" width="70" height="50" rx="12" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
-      <!-- chest panel -->
       <rect x="30" y="83" width="40" height="28" rx="6" fill="#93c5fd" stroke="#60a5fa" stroke-width="1.5"/>
       <circle cx="42" cy="97" r="5" fill="#1d6fbf"/>
       <circle cx="58" cy="97" r="5" fill="#60a5fa"/>
       <rect x="36" y="87" width="28" height="5" rx="2.5" fill="#dbeeff" opacity="0.7"/>
-      <!-- arms -->
       <rect x="1" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
       <rect x="85" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
-      <!-- legs -->
       <rect x="25" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
       <rect x="57" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
     </svg>
@@ -398,18 +364,25 @@
     };
     var picks = ['rock', 'paper', 'scissors'];
     var wins = 0, ties = 0, losses = 0;
+    var bubbleTimer = null;
+
+    var phrases = {
+      win:  ['I WIN! HA!', 'Too easy!', 'Calculated!', 'Beep BOOM!', 'CPU rules!'],
+      lose: ['Nooo...', 'Does not compute', 'Need a reboot', 'Unfair!', '*sad beep*'],
+      tie:  ['A tie? Hmm.', 'Interesting...', 'Processing...', 'We are equal!']
+    };
 
     function play(player) {
       var cpu = picks[Math.floor(Math.random() * 3)];
 
-      // Show the arena with both picks
+      // Show arena
       document.getElementById('arena').classList.add('visible');
-      document.getElementById('player-icon').innerHTML = icons[player];
-      document.getElementById('cpu-icon').innerHTML    = icons[cpu];
-      document.getElementById('player-icon').className = 'arena-icon' + (player === 'rock' ? ' dark' : '');
-      document.getElementById('cpu-icon').className    = 'arena-icon' + (cpu    === 'rock' ? ' dark' : '');
+      document.getElementById('player-icon').innerHTML  = icons[player];
+      document.getElementById('player-icon').className  = 'arena-icon' + (player === 'rock' ? ' dark' : '');
+      document.getElementById('cpu-icon').innerHTML     = icons[cpu];
+      document.getElementById('cpu-icon').className     = 'arena-icon' + (cpu === 'rock' ? ' dark' : '');
 
-      // Determine result
+      // Determine outcome
       var msg, cls;
       if (player === cpu) {
         msg = "It's a tie!";
@@ -432,20 +405,14 @@
         document.getElementById('score-cpu').textContent = losses;
       }
 
-      // Display result
+      // Show result
       var el = document.getElementById('result-msg');
       el.textContent = msg;
       el.className   = 'result-msg ' + cls;
 
-      // React robot
+      // Animate robot
       reactRobot(cls);
     }
-
-    var robotPhrases = {
-      win:  ['I WIN! HA!', 'Too easy!', 'Calculated!', 'Beep BOOM!', 'CPU rules!'],
-      lose: ['Nooo...', 'Does not compute', 'I need a reboot', 'Unfair!', '*sad beep*'],
-      tie:  ['A tie? Hmm.', 'Interesting...', 'Processing...', 'We are equal!']
-    };
 
     function reactRobot(outcome) {
       var svg    = document.getElementById('robot-svg');
@@ -454,57 +421,54 @@
       var eyeL   = document.getElementById('eye-l');
       var eyeR   = document.getElementById('eye-r');
 
-      // Reset animation classes
+      // Reset animation by removing classes and forcing reflow
       svg.classList.remove('bounce', 'droop');
-      void svg.getBoundingClientRect();
+      svg.getBoundingClientRect();
 
-      // Pick a random phrase
-      var phrases = robotPhrases[outcome];
-      bubble.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+      // Pick random phrase
+      var list = phrases[outcome];
+      bubble.textContent = list[Math.floor(Math.random() * list.length)];
 
       if (outcome === 'win') {
-        // CPU wins: happy face — big smile, bright eyes
         svg.classList.add('bounce');
         mouth.setAttribute('d', 'M 28 54 Q 50 68 72 54');
         eyeL.setAttribute('fill', '#60a5fa');
         eyeR.setAttribute('fill', '#60a5fa');
         eyeL.setAttribute('height', '8');
         eyeR.setAttribute('height', '8');
-        bubble.style.color      = '#0f8a5f';
-        bubble.style.borderColor = '#0f8a5f';
         bubble.style.background  = '#d1fae5';
-        bubble.querySelector && null; // no-op
+        bubble.style.borderColor = '#0f8a5f';
+        bubble.style.color       = '#064e3b';
       } else if (outcome === 'lose') {
-        // CPU loses: sad face — frown, dim eyes
         svg.classList.add('droop');
         mouth.setAttribute('d', 'M 32 62 Q 50 52 68 62');
         eyeL.setAttribute('fill', '#93c5fd');
         eyeR.setAttribute('fill', '#93c5fd');
-        eyeL.setAttribute('height', '4');
-        eyeR.setAttribute('height', '4');
-        bubble.style.color       = '#dc2626';
-        bubble.style.borderColor = '#dc2626';
+        eyeL.setAttribute('height', '3');
+        eyeR.setAttribute('height', '3');
         bubble.style.background  = '#fee2e2';
+        bubble.style.borderColor = '#dc2626';
+        bubble.style.color       = '#7f1d1d';
       } else {
-        // Tie: neutral face
         mouth.setAttribute('d', 'M 34 58 Q 50 58 66 58');
         eyeL.setAttribute('fill', '#dbeeff');
         eyeR.setAttribute('fill', '#dbeeff');
         eyeL.setAttribute('height', '6');
         eyeR.setAttribute('height', '6');
-        bubble.style.color       = '#2e6fa3';
-        bubble.style.borderColor = '#60a5fa';
         bubble.style.background  = 'white';
+        bubble.style.borderColor = '#60a5fa';
+        bubble.style.color       = '#0c2340';
       }
 
-      // Show bubble then fade after 2.5s
+      // Show bubble, then hide after 2.5s
       bubble.classList.remove('show');
-      void bubble.getBoundingClientRect();
+      bubble.getBoundingClientRect();
       bubble.classList.add('show');
-      clearTimeout(window._bubbleTimer);
-      window._bubbleTimer = setTimeout(function() {
+      clearTimeout(bubbleTimer);
+      bubbleTimer = setTimeout(function() {
         bubble.classList.remove('show');
       }, 2500);
+    }
   </script>
 
 </body>
