@@ -410,8 +410,9 @@
       el.textContent = msg;
       el.className   = 'result-msg ' + cls;
 
-      // Animate robot
-      reactRobot(cls);
+      // Animate robot (from CPU's perspective — opposite of player outcome)
+      var robotOutcome = cls === 'win' ? 'lose' : cls === 'lose' ? 'win' : 'tie';
+      reactRobot(robotOutcome);
     }
 
     function reactRobot(outcome) {
