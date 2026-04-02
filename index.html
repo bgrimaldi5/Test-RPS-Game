@@ -4,60 +4,308 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rock Paper Scissors</title>
-  <link rel="stylesheet" href="style.css.txt">
-  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Theme ── */
+    :root {
+      --bg:      #0f0c1a;
+      --card:    #1e1535;
+      --border:  #4a2d8a;
+      --accent:  #c084fc;
+      --yellow:  #fde047;
+      --teal:    #34d399;
+      --red:     #f87171;
+      --text:    #f3e8ff;
+      --muted:   #a78bca;
+    }
+
+    /* ── Body ── */
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    /* ── Wrapper ── */
+    .game {
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    /* ── Title ── */
+    h1 {
+      font-family: 'Boogaloo', cursive;
+      font-size: clamp(2.8rem, 10vw, 5rem);
+      line-height: 1;
+      letter-spacing: 1px;
+      color: var(--accent);
+      text-shadow: 0 0 30px rgba(192,132,252,0.5);
+      margin-bottom: 0.25rem;
+    }
+
+    .tagline {
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Choice Buttons ── */
+    .choices {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .choice {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem 0.75rem 1rem;
+      width: 130px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .choice:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(192,132,252,0.35);
+    }
+
+    .choice:active {
+      transform: translateY(-2px) scale(0.96);
+    }
+
+    .choice-icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+
+    .choice-name {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.15rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* ── Arena ── */
+    .arena {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .arena.visible { display: flex; }
+
+    .arena-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .arena-icon {
+      font-size: 4rem;
+      line-height: 1;
+    }
+
+    .arena-label {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .arena-vs {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1.8rem;
+      color: var(--border);
+    }
+
+    /* ── Result message ── */
+    .result-msg {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      min-height: 2.5rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .result-msg.win  { color: var(--teal);   text-shadow: 0 0 14px rgba(52,211,153,0.5); }
+    .result-msg.lose { color: var(--red);    text-shadow: 0 0 14px rgba(248,113,113,0.5); }
+    .result-msg.tie  { color: var(--yellow); text-shadow: 0 0 14px rgba(253,224,71,0.4); }
+
+    /* ── Scoreboard ── */
+    .scoreboard {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 0.9rem 2rem;
+    }
+
+    .score-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.15rem;
+    }
+
+    .score-label {
+      font-size: 0.7rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .score-num {
+      font-family: 'Boogaloo', cursive;
+      font-size: 2.5rem;
+      line-height: 1;
+      color: var(--yellow);
+    }
+
+    .score-sep {
+      font-family: 'Boogaloo', cursive;
+      font-size: 1rem;
+      color: var(--border);
+      letter-spacing: 2px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 400px) {
+      .choice      { width: 100px; padding: 1rem 0.5rem 0.75rem; }
+      .choice-icon { font-size: 2.5rem; }
+      .choices     { gap: 0.6rem; }
+    }
+  </style>
 </head>
 <body>
 
-  <div class="stars" aria-hidden="true"></div>
+  <div class="game">
+    <h1>RPS</h1>
+    <p class="tagline">Rock &middot; Paper &middot; Scissors</p>
 
-  <div class="container">
-    <h1>Rock<br>Paper<br>Scissors</h1>
-    <p class="subtitle">Choose your weapon!</p>
-
+    <!-- Pick buttons -->
     <div class="choices">
-
-      <button class="choice-btn" onclick="play('rock')" aria-label="Rock">
-        <div class="choice-card">
-          <span class="choice-emoji" id="emoji-rock">&#x1FAA8;</span>
-          <span class="choice-label">Rock</span>
-        </div>
+      <button class="choice" onclick="play('rock')">
+        <span class="choice-icon">&#x1FAA8;</span>
+        <span class="choice-name">Rock</span>
       </button>
-
-      <button class="choice-btn" onclick="play('paper')" aria-label="Paper">
-        <div class="choice-card">
-          <span class="choice-emoji" id="emoji-paper">&#x1F4C4;</span>
-          <span class="choice-label">Paper</span>
-        </div>
+      <button class="choice" onclick="play('paper')">
+        <span class="choice-icon">&#x1F4C4;</span>
+        <span class="choice-name">Paper</span>
       </button>
-
-      <button class="choice-btn" onclick="play('scissors')" aria-label="Scissors">
-        <div class="choice-card">
-          <span class="choice-emoji" id="emoji-scissors">&#x2702;&#xFE0F;</span>
-          <span class="choice-label">Scissors</span>
-        </div>
+      <button class="choice" onclick="play('scissors')">
+        <span class="choice-icon">&#x2702;&#xFE0F;</span>
+        <span class="choice-name">Scissors</span>
       </button>
-
     </div>
 
-    <div class="result-area" id="result-area" aria-live="polite">
-      <div class="result-text" id="result"></div>
-      <div class="computer-choice" id="computer-choice"></div>
-    </div>
-
-    <div class="scoreboard">
-      <div class="score-box">
-        <span class="score-label">You</span>
-        <span class="score-num" id="score-win">0</span>
+    <!-- Shows after each round -->
+    <div class="arena" id="arena">
+      <div class="arena-side">
+        <div class="arena-icon" id="player-icon"></div>
+        <div class="arena-label">You</div>
       </div>
-      <div class="score-divider">vs</div>
-      <div class="score-box">
-        <span class="score-label">CPU</span>
-        <span class="score-num" id="score-lose">0</span>
+      <div class="arena-vs">VS</div>
+      <div class="arena-side">
+        <div class="arena-icon" id="cpu-icon"></div>
+        <div class="arena-label">CPU</div>
+      </div>
+    </div>
+
+    <!-- Win / Lose / Tie -->
+    <div class="result-msg" id="result-msg"></div>
+
+    <!-- Score -->
+    <div class="scoreboard">
+      <div class="score-col">
+        <div class="score-label">You</div>
+        <div class="score-num" id="score-you">0</div>
+      </div>
+      <div class="score-sep">&#8212;</div>
+      <div class="score-col">
+        <div class="score-label">Ties</div>
+        <div class="score-num" id="score-tie">0</div>
+      </div>
+      <div class="score-sep">&#8212;</div>
+      <div class="score-col">
+        <div class="score-label">CPU</div>
+        <div class="score-num" id="score-cpu">0</div>
       </div>
     </div>
   </div>
 
-  <script src="script.js.txt"></script>
+  <script>
+    var icons = {
+      rock:     '&#x1FAA8;',
+      paper:    '&#x1F4C4;',
+      scissors: '&#x2702;&#xFE0F;'
+    };
+    var picks = ['rock', 'paper', 'scissors'];
+    var wins = 0, ties = 0, losses = 0;
+
+    function play(player) {
+      var cpu = picks[Math.floor(Math.random() * 3)];
+
+      // Show the arena with both picks
+      document.getElementById('arena').classList.add('visible');
+      document.getElementById('player-icon').innerHTML = icons[player];
+      document.getElementById('cpu-icon').innerHTML    = icons[cpu];
+
+      // Determine result
+      var msg, cls;
+      if (player === cpu) {
+        msg = "It's a tie!";
+        cls = 'tie';
+        ties++;
+        document.getElementById('score-tie').textContent = ties;
+      } else if (
+        (player === 'rock'     && cpu === 'scissors') ||
+        (player === 'paper'    && cpu === 'rock')     ||
+        (player === 'scissors' && cpu === 'paper')
+      ) {
+        msg = 'You win!';
+        cls = 'win';
+        wins++;
+        document.getElementById('score-you').textContent = wins;
+      } else {
+        msg = 'You lose!';
+        cls = 'lose';
+        losses++;
+        document.getElementById('score-cpu').textContent = losses;
+      }
+
+      // Display result
+      var el = document.getElementById('result-msg');
+      el.textContent = msg;
+      el.className   = 'result-msg ' + cls;
+    }
+  </script>
+
 </body>
 </html>
