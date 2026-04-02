@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Rock Paper Scissors</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css.txt">
   <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,21 +19,21 @@
 
       <button class="choice-btn" onclick="play('rock')" aria-label="Rock">
         <div class="choice-card">
-          <span class="choice-emoji">🪨</span>
+          <span class="choice-emoji" id="emoji-rock">&#x1FAA8;</span>
           <span class="choice-label">Rock</span>
         </div>
       </button>
 
       <button class="choice-btn" onclick="play('paper')" aria-label="Paper">
         <div class="choice-card">
-          <span class="choice-emoji">📄</span>
+          <span class="choice-emoji" id="emoji-paper">&#x1F4C4;</span>
           <span class="choice-label">Paper</span>
         </div>
       </button>
 
       <button class="choice-btn" onclick="play('scissors')" aria-label="Scissors">
         <div class="choice-card">
-          <span class="choice-emoji">✂️</span>
+          <span class="choice-emoji" id="emoji-scissors">&#x2702;&#xFE0F;</span>
           <span class="choice-label">Scissors</span>
         </div>
       </button>
@@ -58,6 +58,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js.txt"></script>
 </body>
 </html>
