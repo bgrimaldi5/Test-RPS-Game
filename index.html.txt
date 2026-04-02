@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rock Paper Scissors</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="stars" aria-hidden="true"></div>
+
+  <div class="container">
+    <h1>Rock<br>Paper<br>Scissors</h1>
+    <p class="subtitle">Choose your weapon!</p>
+
+    <div class="choices">
+
+      <button class="choice-btn" onclick="play('rock')" aria-label="Rock">
+        <div class="choice-card">
+          <span class="choice-emoji">🪨</span>
+          <span class="choice-label">Rock</span>
+        </div>
+      </button>
+
+      <button class="choice-btn" onclick="play('paper')" aria-label="Paper">
+        <div class="choice-card">
+          <span class="choice-emoji">📄</span>
+          <span class="choice-label">Paper</span>
+        </div>
+      </button>
+
+      <button class="choice-btn" onclick="play('scissors')" aria-label="Scissors">
+        <div class="choice-card">
+          <span class="choice-emoji">✂️</span>
+          <span class="choice-label">Scissors</span>
+        </div>
+      </button>
+
+    </div>
+
+    <div class="result-area" id="result-area" aria-live="polite">
+      <div class="result-text" id="result"></div>
+      <div class="computer-choice" id="computer-choice"></div>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score-box">
+        <span class="score-label">You</span>
+        <span class="score-num" id="score-win">0</span>
+      </div>
+      <div class="score-divider">vs</div>
+      <div class="score-box">
+        <span class="score-label">CPU</span>
+        <span class="score-num" id="score-lose">0</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
