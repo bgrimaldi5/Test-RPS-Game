@@ -210,6 +210,94 @@
       .choice-icon { font-size: 2.5rem; }
       .choices     { gap: 0.6rem; }
     }
+
+    /* ── Robot ── */
+    .robot-wrap {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      user-select: none;
+    }
+
+    .robot-bubble {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.4rem 0.75rem;
+      font-family: 'Boogaloo', cursive;
+      font-size: 0.95rem;
+      color: var(--text);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+    .robot-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--border);
+    }
+    .robot-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 4px solid transparent;
+      border-top-color: white;
+      z-index: 1;
+    }
+    .robot-bubble.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .robot-svg {
+      width: 90px;
+      height: auto;
+      filter: drop-shadow(0 4px 10px rgba(29,111,191,0.2));
+      transition: transform 0.3s ease;
+    }
+    .robot-wrap:hover .robot-svg {
+      transform: translateY(-4px);
+    }
+
+    /* bounce on win */
+    .robot-svg.bounce {
+      animation: robotBounce 0.5s ease;
+    }
+    @keyframes robotBounce {
+      0%   { transform: translateY(0); }
+      30%  { transform: translateY(-16px); }
+      55%  { transform: translateY(-6px); }
+      75%  { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* droop on lose */
+    .robot-svg.droop {
+      animation: robotDroop 0.5s ease forwards;
+    }
+    @keyframes robotDroop {
+      0%   { transform: translateY(0) rotate(0deg); }
+      40%  { transform: translateY(6px) rotate(-6deg); }
+      100% { transform: translateY(4px) rotate(-4deg); }
+    }
+
+    /* hide robot on small screens */
+    @media (max-width: 780px) {
+      .robot-wrap { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -268,6 +356,40 @@
     </div>
   </div>
 
+  <!-- Robot -->
+  <div class="robot-wrap" id="robot-wrap">
+    <div class="robot-bubble" id="robot-bubble">Beep boop!</div>
+    <svg class="robot-svg" id="robot-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg">
+      <!-- antenna -->
+      <line x1="50" y1="12" x2="50" y2="22" stroke="#1d6fbf" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="50" cy="9" r="5" fill="#60a5fa" stroke="#1d6fbf" stroke-width="2"/>
+      <!-- head -->
+      <rect x="20" y="22" width="60" height="44" rx="10" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
+      <!-- eyes - normal: glowing rect pupils -->
+      <rect x="29" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
+      <rect id="eye-l" x="33" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
+      <rect x="55" y="32" width="16" height="14" rx="4" fill="#1d6fbf"/>
+      <rect id="eye-r" x="59" y="36" width="8" height="6" rx="2" fill="#dbeeff"/>
+      <!-- mouth -->
+      <path id="robot-mouth" d="M 32 56 Q 50 64 68 56" stroke="#1d6fbf" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- neck -->
+      <rect x="43" y="66" width="14" height="8" rx="3" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
+      <!-- body -->
+      <rect x="15" y="74" width="70" height="50" rx="12" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2.5"/>
+      <!-- chest panel -->
+      <rect x="30" y="83" width="40" height="28" rx="6" fill="#93c5fd" stroke="#60a5fa" stroke-width="1.5"/>
+      <circle cx="42" cy="97" r="5" fill="#1d6fbf"/>
+      <circle cx="58" cy="97" r="5" fill="#60a5fa"/>
+      <rect x="36" y="87" width="28" height="5" rx="2.5" fill="#dbeeff" opacity="0.7"/>
+      <!-- arms -->
+      <rect x="1" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
+      <rect x="85" y="76" width="14" height="34" rx="7" fill="#bfdfff" stroke="#1d6fbf" stroke-width="2"/>
+      <!-- legs -->
+      <rect x="25" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
+      <rect x="57" y="122" width="18" height="8" rx="4" fill="#93c5fd" stroke="#1d6fbf" stroke-width="2"/>
+    </svg>
+  </div>
+
   <script>
     var icons = {
       rock:     '&#x1FAA8;',
@@ -314,7 +436,75 @@
       var el = document.getElementById('result-msg');
       el.textContent = msg;
       el.className   = 'result-msg ' + cls;
+
+      // React robot
+      reactRobot(cls);
     }
+
+    var robotPhrases = {
+      win:  ['I WIN! HA!', 'Too easy!', 'Calculated!', 'Beep BOOM!', 'CPU rules!'],
+      lose: ['Nooo...', 'Does not compute', 'I need a reboot', 'Unfair!', '*sad beep*'],
+      tie:  ['A tie? Hmm.', 'Interesting...', 'Processing...', 'We are equal!']
+    };
+
+    function reactRobot(outcome) {
+      var svg    = document.getElementById('robot-svg');
+      var bubble = document.getElementById('robot-bubble');
+      var mouth  = document.getElementById('robot-mouth');
+      var eyeL   = document.getElementById('eye-l');
+      var eyeR   = document.getElementById('eye-r');
+
+      // Reset animation classes
+      svg.classList.remove('bounce', 'droop');
+      void svg.getBoundingClientRect();
+
+      // Pick a random phrase
+      var phrases = robotPhrases[outcome];
+      bubble.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+
+      if (outcome === 'win') {
+        // CPU wins: happy face — big smile, bright eyes
+        svg.classList.add('bounce');
+        mouth.setAttribute('d', 'M 28 54 Q 50 68 72 54');
+        eyeL.setAttribute('fill', '#60a5fa');
+        eyeR.setAttribute('fill', '#60a5fa');
+        eyeL.setAttribute('height', '8');
+        eyeR.setAttribute('height', '8');
+        bubble.style.color      = '#0f8a5f';
+        bubble.style.borderColor = '#0f8a5f';
+        bubble.style.background  = '#d1fae5';
+        bubble.querySelector && null; // no-op
+      } else if (outcome === 'lose') {
+        // CPU loses: sad face — frown, dim eyes
+        svg.classList.add('droop');
+        mouth.setAttribute('d', 'M 32 62 Q 50 52 68 62');
+        eyeL.setAttribute('fill', '#93c5fd');
+        eyeR.setAttribute('fill', '#93c5fd');
+        eyeL.setAttribute('height', '4');
+        eyeR.setAttribute('height', '4');
+        bubble.style.color       = '#dc2626';
+        bubble.style.borderColor = '#dc2626';
+        bubble.style.background  = '#fee2e2';
+      } else {
+        // Tie: neutral face
+        mouth.setAttribute('d', 'M 34 58 Q 50 58 66 58');
+        eyeL.setAttribute('fill', '#dbeeff');
+        eyeR.setAttribute('fill', '#dbeeff');
+        eyeL.setAttribute('height', '6');
+        eyeR.setAttribute('height', '6');
+        bubble.style.color       = '#2e6fa3';
+        bubble.style.borderColor = '#60a5fa';
+        bubble.style.background  = 'white';
+      }
+
+      // Show bubble then fade after 2.5s
+      bubble.classList.remove('show');
+      void bubble.getBoundingClientRect();
+      bubble.classList.add('show');
+      clearTimeout(window._bubbleTimer);
+      window._bubbleTimer = setTimeout(function() {
+        bubble.classList.remove('show');
+      }, 2500);
   </script>
 
 </body>
